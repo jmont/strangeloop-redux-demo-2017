@@ -1,15 +1,37 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 const style = { margin: '0 auto' }
 
-export const Todo = () => (
+const EmptyTodo = ({ loadFakeTodoList }) => (
     <div style={style} >
-        <h2>Todo TBD</h2>
+        <button onClick={loadFakeTodoList}>Load List</button>
     </div>
 )
-Todo.propTypes = {
 
+EmptyTodo.propTypes = {
+    loadFakeTodoList: PropTypes.func.isRequired,
 }
 
-export default Todo
+const TodoItem = ({ id, task }) => (
+    <li key={id}>{task}</li>
+)
+
+TodoItem.propTypes = {
+    id: PropTypes.number.isRequired,
+    task: PropTypes.string.isRequired,
+}
+
+const Todo = ({ title, todoItems }) => (
+    <div style={style} >
+        <h2>{ title }</h2>
+        {todoItems.map((t) => TodoItem(t))}
+    </div>
+)
+
+Todo.propTypes = {
+    title: PropTypes.string.isRequired,
+    todoItems: PropTypes.array.isRequired,
+}
+
+export default (props) => props.isLoading ? EmptyTodo(props) : Todo(props)

@@ -1,5 +1,7 @@
 import { connect } from 'react-redux'
-// import { increment, doubleAsync } from '../modules/counter' // TODO Actions
+import { bindActionCreators } from 'redux'
+
+import { loadFakeTodoList } from '../modules/todo'
 
 /*  This is a container component. Notice it does not contain any JSX,
 nor does it import React. This component is **only** responsible for
@@ -8,16 +10,22 @@ component - in this case, the todo:   */
 
 import Todo from '../components/Todo'
 
+console.log('TODOOO', Todo)
+
 /*  Object of action creators (can also be function that returns object).
 Keys will be passed as props to presentational components. Here we are
 implementing our wrapper around increment; the component doesn't care   */
 
-const mapDispatchToProps = {
-
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        loadFakeTodoList
+    }, dispatch)
 }
 
 const mapStateToProps = (state) => ({
-
+    isLoading: state.todo.isLoading,
+    title: state.todo.title,
+    todoItems: state.todo.todoItems,
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:
